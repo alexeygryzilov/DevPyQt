@@ -19,6 +19,7 @@ class Window(QtWidgets.QWidget):
         line_edit.setPlaceholderText("Enter Your Name")  # Установка текста-подсказки в поле ввода
         line_edit.setMaxLength(8)  # Установка максимальной длины текста в поле ввода
 
+        # line_edit.setReadOnly("true")
         # line_edit.setText("Default Text")   # Запись текста по умолчанию
         # line_edit.setEnabled(False)    # Включение/отключение поля ввода
 
