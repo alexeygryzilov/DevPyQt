@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>396</width>
-    <height>248</height>
+    <height>262</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,9 +30,6 @@
        <font>
         <pointsize>13</pointsize>
        </font>
-      </property>
-      <property name="autoFillBackground">
-       <bool>true</bool>
       </property>
       <property name="title">
        <string>Параметры корабля</string>

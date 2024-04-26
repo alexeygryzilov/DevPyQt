@@ -24,7 +24,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(452, 187)
+        MainWindow.resize(548, 253)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout_3 = QVBoxLayout(self.centralwidget)
@@ -40,8 +40,8 @@ class Ui_MainWindow(object):
         self.label = QLabel(self.groupBox)
         self.label.setObjectName(u"label")
         font = QFont()
-        font.setPointSize(10)
-        font.setBold(True)
+        font.setPointSize(14)
+        font.setBold(False)
         self.label.setFont(font)
 
         self.horizontalLayout.addWidget(self.label)
@@ -58,6 +58,9 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.lineEdit.sizePolicy().hasHeightForWidth())
         self.lineEdit.setSizePolicy(sizePolicy)
         self.lineEdit.setMinimumSize(QSize(300, 0))
+        font1 = QFont()
+        font1.setPointSize(13)
+        self.lineEdit.setFont(font1)
 
         self.horizontalLayout.addWidget(self.lineEdit)
 
@@ -81,6 +84,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.lineEdit_2.sizePolicy().hasHeightForWidth())
         self.lineEdit_2.setSizePolicy(sizePolicy)
         self.lineEdit_2.setMinimumSize(QSize(300, 0))
+        self.lineEdit_2.setFont(font1)
 
         self.horizontalLayout_2.addWidget(self.lineEdit_2)
 
@@ -102,7 +106,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 452, 22))
+        self.menubar.setGeometry(QRect(0, 0, 548, 22))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -115,7 +119,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"GroupBox", None))
+        self.groupBox.setTitle("")
         self.label.setText(QCoreApplication.translate("MainWindow", u"Login", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Password", None))
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"\u0412\u043e\u0439\u0442\u0438", None))
