@@ -39,10 +39,12 @@ class Window(QtWidgets.QWidget):
         # будут выполнены действия описанные
         # в методе класса onPushButtonClicked
         self.pushButton.clicked.connect(self.onPushButtonClicked)
+        # в метод 'connect' прописываем ССЫЛКУ на слот т.е. без ()
 
-    @QtCore.Slot()
+    @QtCore.Slot() # декоратор необязательный
     def onPushButtonClicked(self):
         print("pushButton was clicked")
+
 
 
 if __name__ == "__main__":

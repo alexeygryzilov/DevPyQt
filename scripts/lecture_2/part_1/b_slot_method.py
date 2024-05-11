@@ -1,5 +1,5 @@
 """
-Подключение сигнала к методу (слоту) класса
+Подключение сигнала к методу (слоту) класса, 90% случаев
 """
 
 from PySide6 import QtWidgets
@@ -22,7 +22,7 @@ class Window(QtWidgets.QWidget):
 
         self.setWindowTitle("Калькулятор")
 
-        labelA = QtWidgets.QLabel("Число A")
+        labelA = QtWidgets.QLabel("Число A")  # label создаём без self, поскольку они меняться не будут
         labelB = QtWidgets.QLabel("Число B")
         labelResult = QtWidgets.QLabel("Результат:")
 
@@ -67,20 +67,20 @@ class Window(QtWidgets.QWidget):
 
         :return: None
         """
-
+        #print(self.sender())  кто является отправителем сигнала - pushButtonSum
         a = int(self.lineEditA.text())
         b = int(self.lineEditB.text())
 
         self.lineEditResult.setText(str(a + b))
 
-    @Slot()
+    @Slot() # декратор необязательный но читаемость кода улучшается
     def calc_sub(self) -> None:
         """
         Разность двух чисел
 
         :return: None
         """
-
+        #print(self.sender().text())
         a = int(self.lineEditA.text())
         b = int(self.lineEditB.text())
 

@@ -1,5 +1,5 @@
 """
-Подключение сигнала к методу изменения состояния GUI
+Подключение сигнала к методу изменения состояния GUI: меняем заголовок окна
 """
 
 from PySide6 import QtWidgets
@@ -33,7 +33,7 @@ class Window(QtWidgets.QWidget):
         :return: None
         """
 
-        self.lineEdit.textChanged.connect(self.setWindowTitle)
+        self.lineEdit.textChanged.connect(self.setWindowTitle)  # слотом является метод нашего класса (setWindowTitle)
 
 
 if __name__ == "__main__":

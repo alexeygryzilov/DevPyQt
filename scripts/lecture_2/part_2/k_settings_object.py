@@ -6,13 +6,13 @@ from PySide6 import QtWidgets, QtGui, QtCore
 
 
 class Window(QtWidgets.QWidget):
-
+    # конструктор класса
     def __init__(self, parent=None):
-        super().__init__(parent)
+        super().__init__(parent)    # вызов конструктора родительского класса
 
-        self.ip_list_settings = QtCore.QSettings("IPViewer")
+        self.ip_list_settings = QtCore.QSettings("IPViewer")    # создание объекта QSettings для хранения натроек
 
-        self.initUi()
+        self.initUi()   # инициализация пользовательского интерфейса
 
     def initUi(self) -> None:
         """
@@ -21,14 +21,14 @@ class Window(QtWidgets.QWidget):
         :return: None
         """
 
-        main_layout = QtWidgets.QVBoxLayout()
+        main_layout = QtWidgets.QVBoxLayout()   # создание вертикального макета для виджетов
 
-        ip_list = self.ip_list_settings.value("ip_list", [])
+        ip_list = self.ip_list_settings.value("ip_list", [])    # получение списка IP-адресов из настроек
 
-        for ip in ip_list:
+        for ip in ip_list:  # вывод каждого IP-адреса в консоль
             print(ip)
 
-        self.lineEdit_1 = QtWidgets.QLineEdit()
+        self.lineEdit_1 = QtWidgets.QLineEdit() # Создание виджета QLineEdit для ввода IP-адреса
         if ip_list:
             self.lineEdit_1.setText(ip_list[0])
 

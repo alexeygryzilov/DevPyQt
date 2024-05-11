@@ -13,7 +13,7 @@ class Window(QtWidgets.QMainWindow):
         self.fileMenu = self.menuBar().addMenu('File_1')
         self.fileMenu.addAction("Open")
         self.fileMenu.addAction("Close")
-        self.fileMenu.addAction(("Delete"))
+        self.fileMenu.addAction("Delete")
 
         self.fileMenu = self.menuBar().addMenu('File_2')
         self.fileMenu.addAction("Open")
@@ -42,7 +42,7 @@ class Window(QtWidgets.QMainWindow):
         layout.addWidget(QtWidgets.QLabel("Надпись"))
         layout.addWidget(self.abc)
 
-        # Центральный виджет особенность QMainWindow
+        # Центральный виджет особенность QMainWindow (в отличие от QWidget)
         centralWidget = QtWidgets.QWidget()
         centralWidget.setLayout(layout)
         self.setCentralWidget(centralWidget)
@@ -54,4 +54,4 @@ if __name__ == "__main__":
     window = Window()
     window.show()
 
-    app.exec_()
+    app.exec()

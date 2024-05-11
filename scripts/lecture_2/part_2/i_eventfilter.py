@@ -31,7 +31,7 @@ class Window(QtWidgets.QWidget):
         """
         Настройка дополнительного поведения виджетов
 
-        :param watched: QtCore.QObject
+        :param watched: QtCore.QObject  просматриваемый/наблюдаемый элемент
         :param event: QtCore.QEvent
         :return: bool
         """
@@ -41,7 +41,7 @@ class Window(QtWidgets.QWidget):
 
         if watched == self.label and event.type() == QtCore.QEvent.Type.Wheel:
             print("wheel changed")
-            print(event.angleDelta())
+            #print(event.angleDelta())
 
         return super(Window, self).eventFilter(watched, event)
 

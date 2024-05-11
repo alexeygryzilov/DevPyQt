@@ -1,5 +1,5 @@
 """
-Генерация "кастомных" сигналов и открытие нескольких окон
+Генерация "кастомных" сигналов и открытие нескольких окон, прямая передача данных между окнами
 """
 
 from PySide6 import QtWidgets, QtCore, QtGui
@@ -73,7 +73,7 @@ class Main(QtWidgets.QWidget):
 
 
 class Child(QtWidgets.QWidget):
-    custom_signal = QtCore.Signal(str)  # Обязательно указать тип данных
+    custom_signal = QtCore.Signal(str)  # Обязательно указать тип данных, можно 'object' - любой тип данных
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -114,7 +114,7 @@ class Child(QtWidgets.QWidget):
         :return: None
         """
 
-        self.custom_signal.emit(self.lineEdit.text())
+        self.custom_signal.emit(self.lineEdit.text())  # генерация сигнала custom_signal
 
 
 if __name__ == "__main__":

@@ -19,6 +19,7 @@ class Window(QtWidgets.QWidget):
         """
 
         print(event.size())
+        #print(event.size().toTuple())
 
 
 if __name__ == '__main__':

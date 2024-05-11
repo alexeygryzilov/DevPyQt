@@ -1,5 +1,5 @@
 """
-Подключение сигнала к функции
+Подключение сигнала к функции, 5% случаев
 """
 
 from PySide6 import QtWidgets
@@ -43,7 +43,7 @@ class Window(QtWidgets.QWidget):
         :return: None
         """
 
-        self.pushButton.clicked.connect(print_something)
+        self.pushButton.clicked.connect(print_something) # ссылка на ф-цию
 
 
 if __name__ == "__main__":

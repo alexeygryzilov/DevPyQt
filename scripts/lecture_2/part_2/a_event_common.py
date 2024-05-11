@@ -10,7 +10,7 @@ class Window(QtWidgets.QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-    def event(self, event: QtCore.QEvent) -> bool:
+    def event(self, event: QtCore.QEvent) -> bool: # переопределение метода 'event'
         """
         Перехват всех событий
 
@@ -19,7 +19,11 @@ class Window(QtWidgets.QWidget):
         """
 
         print(event)
-        return super().event(event)
+        return super().event(event) # возврат события на случай,
+        # если переопределены какие-либо конкретные методы
+
+
+    #def mousePressEvent(self, event: QtCore.QEvent) -> None:
 
 
 if __name__ == '__main__':

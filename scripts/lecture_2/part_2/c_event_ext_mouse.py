@@ -3,7 +3,6 @@
 """
 
 from time import ctime
-
 from PySide6 import QtWidgets, QtGui, QtCore
 
 

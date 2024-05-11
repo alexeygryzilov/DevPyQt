@@ -19,7 +19,7 @@ class Window(QtWidgets.QWidget):
         :return: None
         """
 
-        self.setFixedSize(300, 100)
+        self.setFixedSize(300, 150)
         self.setMouseTracking(True)
 
         self.label = QtWidgets.QLabel("Нажми на меня")
@@ -29,6 +29,10 @@ class Window(QtWidgets.QWidget):
         layout.addWidget(self.label)
         self.setLayout(layout)
 
+    #def event(self, event):
+    #    if event.type() == QtCore.QEvent.Type.MouseMove:
+    #        print(event)
+
     def mouseMoveEvent(self, event: QtGui.QMouseEvent) -> None:
         """
         Обработка событий движения мыши
@@ -36,7 +40,7 @@ class Window(QtWidgets.QWidget):
         :param event: QtGui.QMouseEvent
         :return: None
         """
-
+        #print(type(event))
         self.label.setText("mouseMoveEvent")
 
     def mousePressEvent(self, event: QtGui.QMouseEvent) -> None:

@@ -21,10 +21,10 @@ class MainWindow(QtWidgets.QWidget):
 
         self.setFixedSize(300, 100)
 
-        self.pb = QtWidgets.QPushButton("Открыть")
+        self.pushb = QtWidgets.QPushButton("Открыть")
 
         layout = QtWidgets.QVBoxLayout()
-        layout.addWidget(self.pb)
+        layout.addWidget(self.pushb)
 
         self.setLayout(layout)
 
@@ -35,7 +35,7 @@ class MainWindow(QtWidgets.QWidget):
         :return: None
         """
 
-        self.pb.clicked.connect(self.open_child_window)
+        self.pushb.clicked.connect(self.open_child_window)
 
     def open_child_window(self) -> None:
         """
