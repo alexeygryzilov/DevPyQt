@@ -24,6 +24,12 @@ from PySide6 import QtWidgets, QtGui
 
 from c_signals_events_form import Ui_Form
 
+for screen in QtGui.QGuiApplication.screens():
+    print(screen.geometry(), screen.size())
+
+main_screen = QtGui.QGuiApplication.screens()[0]
+print(main_screen.geometry().height())
+
 
 class Window(QtWidgets.QWidget):
 
@@ -62,6 +68,7 @@ class Window(QtWidgets.QWidget):
 
         print(event.oldPos())
         print(event.pos())
+        print(event.type())
         for screen in QtGui.QGuiApplication.screens():
             print(screen.geometry(), screen.size())
 
