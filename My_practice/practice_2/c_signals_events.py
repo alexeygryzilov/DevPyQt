@@ -59,7 +59,7 @@ class Window(QtWidgets.QWidget):
                f'\n Минимальные размеры окна: {self.minimumWidth()} x {self.minimumHeight()}' \
                f'\n Тущее положение (координаты) окна: {self.x()}, {self.y()}' \
                f'\n Координаты центра приложения: {self.x() + self.width() // 2}, {self.y() + self.height() // 2}' \
-               f'\n Состояние окна: {self.isFullScreen()}'
+               f'\n Состояние окна: {self.whatsThis()}'
 
         self.ui.plainTextEdit.setPlainText(data)
 
