@@ -18,7 +18,7 @@
    в него соответствующие значения
 """
 
-from PySide6 import QtWidgets, QtGui
+from PySide6 import QtWidgets, QtGui, QtCore
 
 from d_eventfilter_settings_form import Ui_Form
 
@@ -27,9 +27,24 @@ class Window(QtWidgets.QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.data_list_settings = QtCore.QSettings("MyData")
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.initSignals()
+
+        data_list = self.data_list_settings.value("data_list", [])
+
+        def set_comboBox():
+            self.ui.comboBox.setCurrentIndex(int(data_list[0]))
+
+        if data_list[0]:
+            set_comboBox()
+
+        def set_dial():
+            self.ui.dial.setValue(int(data_list[1]))
+
+        if data_list[1]:
+            set_dial()
 
     def initSignals(self) -> None:
         # self.ui.dial.valueChanged.connect(self.print_data)
@@ -76,6 +91,18 @@ class Window(QtWidgets.QWidget):
             self.ui.dial.setValue(self.ui.dial.value() - 1)
             # self.ui.dial.valueChanged
             print(self.change_data())
+
+    def closeEvent(self, event: QtGui.QCloseEvent) -> None:
+        """
+        Событие закрытия окна
+
+        :param event: QtGui.QCloseEvent
+        :return: None
+        """
+
+        self.data_list_settings.setValue(
+            "data_list", [self.ui.comboBox.currentIndex(), self.ui.dial.value()]
+        )
 
 
 if __name__ == "__main__":

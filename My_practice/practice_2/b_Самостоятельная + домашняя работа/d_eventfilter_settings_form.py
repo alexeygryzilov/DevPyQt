@@ -9,15 +9,17 @@
 ################################################################################
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
+                            QMetaObject, QObject, QPoint, QRect,
+                            QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
+                           QFont, QFontDatabase, QGradient, QIcon,
+                           QImage, QKeySequence, QLinearGradient, QPainter,
+                           QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QDial, QHBoxLayout,
-    QLCDNumber, QSizePolicy, QSlider, QVBoxLayout,
-    QWidget)
+                               QLCDNumber, QSizePolicy, QSlider, QVBoxLayout,
+                               QWidget)
+
+
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -54,9 +56,7 @@ class Ui_Form(object):
 
         self.verticalLayout.addWidget(self.lcdNumber)
 
-
         self.horizontalLayout.addLayout(self.verticalLayout)
-
 
         self.verticalLayout_2.addLayout(self.horizontalLayout)
 
@@ -66,13 +66,14 @@ class Ui_Form(object):
 
         self.verticalLayout_2.addWidget(self.horizontalSlider)
 
-
         self.retranslateUi(Form)
 
+
+
         QMetaObject.connectSlotsByName(Form)
+
     # setupUi
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
     # retranslateUi
-
