@@ -51,6 +51,7 @@ class Window(QtWidgets.QWidget):
 
         self.timeTimer.timeout.connect(self.showTime)
 
+
     def showTime(self) -> None:
         """
         Слот для отображения в labelTime текущего времени
@@ -61,6 +62,7 @@ class Window(QtWidgets.QWidget):
         time = QtCore.QDateTime.currentDateTime()
         timeDisplay = time.toString('yyyy-MM-dd hh:mm:ss dddd')
         self.labelTime.setText(timeDisplay)
+        print('Change')
 
 
 if __name__ == '__main__':
