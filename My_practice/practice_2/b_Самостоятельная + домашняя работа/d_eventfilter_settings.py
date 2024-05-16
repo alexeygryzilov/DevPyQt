@@ -32,19 +32,18 @@ class Window(QtWidgets.QWidget):
         self.ui.setupUi(self)
         self.initSignals()
 
-        data_list = self.data_list_settings.value("data_list", [])
-
-        def set_comboBox():
-            self.ui.comboBox.setCurrentIndex(int(data_list[0]))
+        data_list = self.data_list_settings.value("data_list", ['', ''])
 
         if data_list[0]:
-            set_comboBox()
-
-        def set_dial():
-            self.ui.dial.setValue(int(data_list[1]))
-
+            self.set_comboBox(data_list[0])
         if data_list[1]:
-            set_dial()
+            self.set_dial(data_list[1])
+
+    def set_comboBox(self, data):
+        self.ui.comboBox.setCurrentIndex(int(data))
+
+    def set_dial(self, data):
+        self.ui.dial.setValue(int(data))
 
     def initSignals(self) -> None:
         # self.ui.dial.valueChanged.connect(self.print_data)
@@ -71,10 +70,17 @@ class Window(QtWidgets.QWidget):
         elif self.ui.comboBox.currentIndex() == 3:
             data = oct(self.ui.dial.value())
         self.ui.lcdNumber.display(data)
+        self.ui.horizontalSlider.setFocus()
         return data
 
     def lcd_number(self):
         self.ui.lcdNumber.display(self.change_data())
+
+    # def event(self, event: QtCore.QEvent) -> bool:
+    #     if event == QtGui.QKeyEvent(key=43):
+    #         print("-")
+    #     return super().event(event)
+
 
     def keyPressEvent(self, event: QtGui.QKeyEvent) -> None:
         """

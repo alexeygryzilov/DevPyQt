@@ -26,9 +26,9 @@ from c_signals_events_form import Ui_Form
 
 
 class Window(QtWidgets.QWidget):
-    class Screens(QtGui.QGuiApplication):
-        def __init__(self, parent=None):
-            super().__init__(parent)
+    # class Screens(QtGui.QGuiApplication):
+    #     def __init__(self, parent=None):
+    #         super().__init__(parent)
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -97,12 +97,13 @@ class Window(QtWidgets.QWidget):
         print(f'Старая позиция: {event.oldPos().x()}, {event.oldPos().y()} ', ctime())
         print(f'Новая позиция:  {event.pos().x()}, {event.pos().y()} ', ctime())
 
-    def sizeEvent(self, event: QtGui.QResizeEvent) -> None:
+    def resizeEvent(self, event: QtGui.QResizeEvent) -> None:
         """
         Событие изменения размеров окна
         """
         # print(type(event))
         print(f'Новый размер: {event.size().width()} X {event.size().height()} ', ctime())
+
 
 
 if __name__ == "__main__":
