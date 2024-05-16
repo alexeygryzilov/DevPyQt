@@ -21,6 +21,7 @@ class MyWindow(QtWidgets.QWidget):
         #self.win_2.setGeometry(100, 100, 718, 628)
 
         # self.initSignals()
+        self.setWindowTitle("practice_3")
         win_1 = WindowCPU()
         win_2 = WindowWeather()
 
