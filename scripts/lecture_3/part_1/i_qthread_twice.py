@@ -34,7 +34,7 @@ class WorkerOne(QtCore.QThread):
 
 
 class WorkerTwo(QtCore.QThread):
-    data_responced = QtCore.Signal(dict)
+    data_responsed = QtCore.Signal(dict)
 
     def run(self) -> None:
         """
@@ -46,7 +46,7 @@ class WorkerTwo(QtCore.QThread):
         while True:
             response = requests.get("http://ip-api.com/json/")
             data = response.json()
-            self.data_responced.emit(data)
+            self.data_responsed.emit(data)
             time.sleep(5)
 
 
