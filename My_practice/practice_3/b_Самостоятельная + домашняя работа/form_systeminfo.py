@@ -78,7 +78,7 @@ class Ui_CPUloadRAMload(object):
     # setupUi
 
     def retranslateUi(self, CPUloadRAMload):
-        CPUloadRAMload.setWindowTitle(QCoreApplication.translate("CPUloadRAMload", "CPU load RAM load", None))
+        CPUloadRAMload.setWindowTitle(QCoreApplication.translate("CPUloadRAMload", u"CPU load RAM load", None))
         self.pushButton.setText(QCoreApplication.translate("CPUloadRAMload", u"\u0412\u0440\u0435\u043c\u044f \u0437\u0430\u0434\u0435\u0440\u0436\u043a\u0438", None))
         self.label_2.setText(QCoreApplication.translate("CPUloadRAMload", u"CPU load", None))
         self.label_3.setText(QCoreApplication.translate("CPUloadRAMload", u"RAM load", None))
