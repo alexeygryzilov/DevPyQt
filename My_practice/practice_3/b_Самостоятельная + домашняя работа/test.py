@@ -33,9 +33,10 @@ class SystemInfo(QtCore.QThread):
         while True:  # TODO Запустите бесконечный цикл получения информации о системе
             cpu_value = psutil.cpu_percent()# TODO с помощью вызова функции cpu_percent() в пакете psutil получите загрузку CPU
             ram_value = psutil.virtual_memory().percent  # TODO с помощью вызова функции virtual_memory().percent в пакете psutil получите загрузку RAM
-            self.systemInfoReceived.emit([cpu_value, ram_value])  # TODO с помощью метода .emit передайте в виде списка данные о загрузке CPU и RAM
+            data = [cpu_value, ram_value]
+            self.systemInfoReceived.emit(data)  # TODO с помощью метода .emit передайте в виде списка данные о загрузке CPU и RAM
             time.sleep(1)  # TODO с помощью функции .sleep() приостановите выполнение цикла на время self.delay
-
+            print("CPU value", cpu_value, "RAM value", ram_value)
 
 
 class WindowCPU(QtWidgets.QWidget):
@@ -52,18 +53,27 @@ class WindowCPU(QtWidgets.QWidget):
 
         self.mythread = SystemInfo()
 
+
     def initSignals(self):
 
+
         self.ui.pushButton.clicked.connect(self.runProcess)
+        self.ui.spinBox.valueChanged.connect(self.runProcess())
         #self.mythread.systemInfoReceived.connect(self.ui.lineEdit.setText("start"))
         #self.mythread.started.connect(lambda: print(psutil.cpu_percent()) )
 
     def runProcess(self):
         #self.ui.pushButton.setEnabled(False)
         self.mythread.start()
-        self.mythread.systemInfoReceived.connect(self.ui.lineEdit.setText())
+        self.mythread.systemInfoReceived.connect(self.data_updated)
         #self.ui.lineEdit.setText()
         print('started')
+        print('Spixbox', self.ui.spinBox.value())
+
+    def data_updated(self, data: list) ->None:
+
+        self.ui.lineEdit.setText(str(data[0]))
+        self.ui.lineEdit_2.setText(str(data[1]))
 
 
 if __name__ == "__main__":
