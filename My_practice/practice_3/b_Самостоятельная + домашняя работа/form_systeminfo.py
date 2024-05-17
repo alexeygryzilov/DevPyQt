@@ -9,15 +9,16 @@
 ################################################################################
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
+                            QMetaObject, QObject, QPoint, QRect,
+                            QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
+                           QFont, QFontDatabase, QGradient, QIcon,
+                           QImage, QKeySequence, QLinearGradient, QPainter,
+                           QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel, QLineEdit,
-    QPushButton, QSizePolicy, QSpinBox, QVBoxLayout,
-    QWidget)
+                               QPushButton, QSizePolicy, QSpinBox, QVBoxLayout,
+                               QWidget)
+
 
 class Ui_CPUloadRAMload(object):
     def setupUi(self, CPUloadRAMload):
@@ -28,16 +29,15 @@ class Ui_CPUloadRAMload(object):
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.pushButton = QPushButton(CPUloadRAMload)
-        self.pushButton.setObjectName(u"pushButton")
+        self.label_1 = QLabel(CPUloadRAMload)
 
-        self.horizontalLayout.addWidget(self.pushButton)
+        self.horizontalLayout.addWidget(self.label_1)
 
         self.spinBox = QSpinBox(CPUloadRAMload)
         self.spinBox.setObjectName(u"spinBox")
+        self.spinBox.setValue(1)
 
         self.horizontalLayout.addWidget(self.spinBox)
-
 
         self.verticalLayout.addLayout(self.horizontalLayout)
 
@@ -53,7 +53,6 @@ class Ui_CPUloadRAMload(object):
 
         self.horizontalLayout_2.addWidget(self.lineEdit)
 
-
         self.verticalLayout.addLayout(self.horizontalLayout_2)
 
         self.horizontalLayout_3 = QHBoxLayout()
@@ -68,19 +67,18 @@ class Ui_CPUloadRAMload(object):
 
         self.horizontalLayout_3.addWidget(self.lineEdit_2)
 
-
         self.verticalLayout.addLayout(self.horizontalLayout_3)
-
 
         self.retranslateUi(CPUloadRAMload)
 
         QMetaObject.connectSlotsByName(CPUloadRAMload)
+
     # setupUi
 
     def retranslateUi(self, CPUloadRAMload):
         CPUloadRAMload.setWindowTitle(QCoreApplication.translate("CPUloadRAMload", u"CPU load RAM load", None))
-        self.pushButton.setText(QCoreApplication.translate("CPUloadRAMload", u"\u0412\u0440\u0435\u043c\u044f \u0437\u0430\u0434\u0435\u0440\u0436\u043a\u0438", None))
+
+        self.label_1.setText("Время задержки")
         self.label_2.setText(QCoreApplication.translate("CPUloadRAMload", u"CPU load", None))
         self.label_3.setText(QCoreApplication.translate("CPUloadRAMload", u"RAM load", None))
     # retranslateUi
-
