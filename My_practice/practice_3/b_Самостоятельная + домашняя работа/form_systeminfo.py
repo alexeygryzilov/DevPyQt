@@ -35,7 +35,8 @@ class Ui_CPUloadRAMload(object):
 
         self.spinBox = QSpinBox(CPUloadRAMload)
         self.spinBox.setObjectName(u"spinBox")
-        self.spinBox.setValue(1)
+        #self.spinBox.setValue(1)
+        self.spinBox.setMinimum(1)
 
         self.horizontalLayout.addWidget(self.spinBox)
 

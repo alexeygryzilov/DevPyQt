@@ -19,12 +19,13 @@ from a_threads import WeatherHandler
 class WindowWeather(QtWidgets.QWidget):
     lat = 36.826903
     lon = 10.173742
+
     def __init__(self, parent=None):
         super().__init__(parent)
 
         self.ui_s = Ui_FormWeather()
         self.ui_s.setupUi(self)
-        # self.initThreads()
+        self.initThreads()
         self.ui_s.radioButton3.setChecked(True)
         self.ui_s.radioButton3.clicked.connect(self.updateDelay)
         self.ui_s.radioButton5.clicked.connect(self.updateDelay)
@@ -42,7 +43,6 @@ class WindowWeather(QtWidgets.QWidget):
         self.ui_s.lineEditLatitude.textChanged.connect(self.stopGetData2)
         self.ui_s.lineEditLongitude.textChanged.connect(self.stopGetData2)
 
-
     def updateDelay(self):
         if self.ui_s.radioButton3.isChecked():
             self.WeatherHandler.setDelay(3)
@@ -50,11 +50,13 @@ class WindowWeather(QtWidgets.QWidget):
             self.WeatherHandler.setDelay(5)
         elif self.ui_s.radioButton10.isChecked():
             self.WeatherHandler.setDelay(10)
+        print()
 
     def getData(self):
-        # if not valLat:
-        #     QtWidgets.QMessageBox.warning("")
-        #     return
+        if not self.validateLatitude:
+            QtWidgets.QMessageBox.warning(self, "Ошибка ввода данных!", "Неверно заданы широта или долгота")
+
+            return
 
         WindowWeather.lat = float(self.ui_s.lineEditLatitude.text())
         WindowWeather.lon = float(self.ui_s.lineEditLongitude.text())
@@ -93,12 +95,10 @@ class WindowWeather(QtWidgets.QWidget):
         self.ui_s.textEditData.append(f"Направление ветра: {winddirection}")
         self.ui_s.textEditData.append(f"Скорость ветра: {windspeed} м/c")
 
-
-    # def initThreads(self):
-    #     self.WeatherHandler = WeatherHandler(
-    #     , WindowWeather.lon)
-    #     self.WeatherHandler.weatherInfoReceived.connect(self.upgradeWeatherInfo)
-    #     self.WeatherHandler.start()
+    def initThreads(self):
+        self.WeatherHandler = WeatherHandler(WindowWeather.lat, WindowWeather.lon)
+        self.WeatherHandler.weatherInfoReceived.connect(self.upgradeWeatherInfo)
+        self.WeatherHandler.start()
 
     def validateLatitude(self):
         latitude_text = self.ui_s.lineEditLatitude.text()
@@ -106,16 +106,21 @@ class WindowWeather(QtWidgets.QWidget):
             latitude = float(latitude_text)
             if -180 <= latitude <= 180:
                 self.ui_s.lineEditLatitude.setStyleSheet("")
+                self.ui_s.textEditData.setText("Test")
             else:
                 self.ui_s.lineEditLatitude.setStyleSheet("background-color: red;")
-                self.ui_s.textEditData.setText('<font color="red">Введите корректные координаты</font>')
+                self.ui_s.textEditData.setText('<font color="blue">Введите корректные координаты</font>')
                 self.stopGetData()
+                QtWidgets.QMessageBox.show(self)
+                self.ui_s.textEditData.setText("неправильно")
+
 
         except ValueError:
             self.ui_s.lineEditLatitude.setStyleSheet("background-color: red;")
             self.ui_s.textEditData.setText('<font color="red">Введите корректные координаты</font>')
             self.stopGetData()
-
+        #finally:
+            #print('Validatelatitude', self.validateLatitude())
 
 
     def validateLongitude(self):
@@ -130,6 +135,7 @@ class WindowWeather(QtWidgets.QWidget):
         except ValueError:
             self.ui_s.lineEditLongitude.setStyleSheet("background-color: red;")
             self.ui_s.textEditData.setText('<font color="red">Введите корректные координаты</font>')
+
 
 class WeatherHandler(QtCore.QThread):
     weatherInfoReceived = QtCore.Signal(dict)
@@ -147,16 +153,12 @@ class WeatherHandler(QtCore.QThread):
     def setStatus(self, val):
         self.__status = val
 
-
     def run(self) -> None:
         while self.__status:
             response = requests.get(self.__api_url)
             data = response.json()
             self.weatherInfoReceived.emit(data)
             time.sleep(self.__delay)
-
-
-
 
 
 if __name__ == "__main__":
