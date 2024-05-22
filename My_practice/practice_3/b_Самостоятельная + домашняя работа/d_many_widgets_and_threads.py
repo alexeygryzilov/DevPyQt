@@ -5,7 +5,7 @@ from PySide6 import QtWidgets, QtGui
 
 # from b_systeminfo_widget import WindowCPU
 from c_weatherapi_widget import WindowWeather
-from test import WindowCPU
+from b_systeminfo_widget import WindowCPU
 
 
 class MyWindow(QtWidgets.QWidget):

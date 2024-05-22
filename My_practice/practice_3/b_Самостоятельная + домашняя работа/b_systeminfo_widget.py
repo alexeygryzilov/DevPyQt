@@ -12,19 +12,41 @@
 реагировать на изменение времени задержки
 """
 
-from PySide6 import QtWidgets, QtGui
+from PySide6 import QtWidgets, QtGui, QtCore
+
+import psutil
+import time
 
 from form_systeminfo import Ui_CPUloadRAMload
+
+from systeminfo import SystemInfo
+
+
 
 
 class WindowCPU(QtWidgets.QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        # self.data_list_settings = QtCore.QSettings("MyData")
+
         self.ui = Ui_CPUloadRAMload()
         self.ui.setupUi(self)
-        # self.initSignals()
+        self.initThreads()
+
+    def initThreads(self):
+        self.mythread = SystemInfo()
+        self.mythread.start()
+        self.runProcess()
+
+    def runProcess(self):
+        self.mythread.start()
+        self.mythread.systemInfoReceived.connect(self.data_updated)
+        self.ui.spinBox.valueChanged.connect(self.data_updated)
+
+    def data_updated(self, data: list) -> None:
+        self.ui.lineEdit.setText(str(data[0]))
+        self.ui.lineEdit_2.setText(str(data[1]))
+        self.mythread.delay = self.ui.spinBox.value()
 
 
 if __name__ == "__main__":

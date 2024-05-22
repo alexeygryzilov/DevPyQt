@@ -43,6 +43,8 @@ class WindowWeather(QtWidgets.QWidget):
         self.ui_s.lineEditLatitude.textChanged.connect(self.stopGetData2)
         self.ui_s.lineEditLongitude.textChanged.connect(self.stopGetData2)
 
+        self.initSignals()
+
     def updateDelay(self):
         if self.ui_s.radioButton3.isChecked():
             self.WeatherHandler.setDelay(3)
@@ -50,35 +52,33 @@ class WindowWeather(QtWidgets.QWidget):
             self.WeatherHandler.setDelay(5)
         elif self.ui_s.radioButton10.isChecked():
             self.WeatherHandler.setDelay(10)
-        print()
 
     def getData(self):
-        if not self.validateLatitude:
-            QtWidgets.QMessageBox.warning(self, "Ошибка ввода данных!", "Неверно заданы широта или долгота")
-
+        if not self.validateLatitude() or not self.validateLongitude():
+            QtWidgets.QMessageBox.warning(self, "Ошибка", "Неверные координаты")
             return
 
         WindowWeather.lat = float(self.ui_s.lineEditLatitude.text())
         WindowWeather.lon = float(self.ui_s.lineEditLongitude.text())
-        self.WeatherHandler = WeatherHandler(WindowWeather.lat, WindowWeather.lon)
-        self.WeatherHandler.setStatus(True)
-        self.WeatherHandler.weatherInfoReceived.connect(self.upgradeWeatherInfo)
-        self.WeatherHandler.started.connect(lambda: print("Старт потока"))
-        self.WeatherHandler.finished.connect(lambda: print("Конец потока"))
+        self.weather_info = WeatherHandler(WindowWeather.lat, WindowWeather.lon)
+        self.weather_info.setStatus(True)
+        self.weather_info.weatherInfoReceived.connect(self.upgradeWeatherInfo)
+        self.weather_info.started.connect(lambda: print("Старт потока"))
+        self.weather_info.finished.connect(lambda: print("Конец потока"))
 
         self.ui_s.textEditData.clear()
         self.ui_s.pushButtonGetData.setEnabled(False)
         self.ui_s.pushButtonStopGetData.setEnabled(True)
-        self.WeatherHandler.start()
+        self.weather_info.start()
 
     def stopGetData(self):
-        self.WeatherHandler.setStatus(None)
+        self.weather_info.setStatus(None)
         self.ui_s.pushButtonStopGetData.setEnabled(False)
         self.ui_s.pushButtonGetData.setEnabled(True)
 
     def stopGetData2(self):
         self.ui_s.textEditData.setText('<font color="red">Координаты изменены</font>')
-        self.WeatherHandler.setStatus(None)
+        self.weather_info.setStatus(None)
         self.ui_s.pushButtonStopGetData.setEnabled(False)
         self.ui_s.pushButtonGetData.setEnabled(True)
 
@@ -96,9 +96,27 @@ class WindowWeather(QtWidgets.QWidget):
         self.ui_s.textEditData.append(f"Скорость ветра: {windspeed} м/c")
 
     def initThreads(self):
-        self.WeatherHandler = WeatherHandler(WindowWeather.lat, WindowWeather.lon)
-        self.WeatherHandler.weatherInfoReceived.connect(self.upgradeWeatherInfo)
-        self.WeatherHandler.start()
+        self.weather_info = WeatherHandler(WindowWeather.lat, WindowWeather.lon)
+        self.weather_info.weatherInfoReceived.connect(self.upgradeWeatherInfo)
+        self.weather_info.start()
+
+    def initSignals(self):
+        self.weather_info.started.connect(self.startThread)
+        self.weather_info.finished.connect(self.finishThread)
+
+    def startThread(self):
+        self.ui_s.lineEditLatitude.setEnabled(False)
+        self.ui_s.lineEditLongitude.setEnabled(False)
+        self.ui_s.radioButton3.setEnabled(False)
+        self.ui_s.radioButton5.setEnabled(False)
+        self.ui_s.radioButton10.setEnabled(False)
+
+    def finishThread(self):
+        self.ui_s.lineEditLatitude.setEnabled(True)
+        self.ui_s.lineEditLongitude.setEnabled(True)
+        self.ui_s.radioButton3.setEnabled(True)
+        self.ui_s.radioButton5.setEnabled(True)
+        self.ui_s.radioButton10.setEnabled(True)
 
     def validateLatitude(self):
         latitude_text = self.ui_s.lineEditLatitude.text()
@@ -106,22 +124,16 @@ class WindowWeather(QtWidgets.QWidget):
             latitude = float(latitude_text)
             if -180 <= latitude <= 180:
                 self.ui_s.lineEditLatitude.setStyleSheet("")
-                self.ui_s.textEditData.setText("Test")
+                return latitude
             else:
                 self.ui_s.lineEditLatitude.setStyleSheet("background-color: red;")
-                self.ui_s.textEditData.setText('<font color="blue">Введите корректные координаты</font>')
+                self.ui_s.textEditData.setText('<font color="red">Введите корректные координаты</font>')
                 self.stopGetData()
-                QtWidgets.QMessageBox.show(self)
-                self.ui_s.textEditData.setText("неправильно")
-
 
         except ValueError:
             self.ui_s.lineEditLatitude.setStyleSheet("background-color: red;")
             self.ui_s.textEditData.setText('<font color="red">Введите корректные координаты</font>')
             self.stopGetData()
-        #finally:
-            #print('Validatelatitude', self.validateLatitude())
-
 
     def validateLongitude(self):
         longitude_text = self.ui_s.lineEditLongitude.text()
@@ -129,36 +141,13 @@ class WindowWeather(QtWidgets.QWidget):
             longitude = float(longitude_text)
             if -180 <= longitude <= 180:
                 self.ui_s.lineEditLongitude.setStyleSheet("")
+                return longitude
             else:
                 self.ui_s.lineEditLongitude.setStyleSheet("background-color: red;")
                 self.ui_s.textEditData.setText('<font color="red">Введите корректные координаты</font>')
         except ValueError:
             self.ui_s.lineEditLongitude.setStyleSheet("background-color: red;")
             self.ui_s.textEditData.setText('<font color="red">Введите корректные координаты</font>')
-
-
-class WeatherHandler(QtCore.QThread):
-    weatherInfoReceived = QtCore.Signal(dict)
-
-    def __init__(self, lat, lon, parent=None):
-        super().__init__(parent)
-
-        self.__api_url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true"
-        self.__delay = 10
-        self.__status = None
-
-    def setDelay(self, delay) -> None:
-        self.__delay = delay
-
-    def setStatus(self, val):
-        self.__status = val
-
-    def run(self) -> None:
-        while self.__status:
-            response = requests.get(self.__api_url)
-            data = response.json()
-            self.weatherInfoReceived.emit(data)
-            time.sleep(self.__delay)
 
 
 if __name__ == "__main__":
