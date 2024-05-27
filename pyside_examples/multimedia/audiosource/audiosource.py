@@ -4,7 +4,7 @@
 """
 PySide6 port of Qt6 example pyside_examples/multimedia/audiosources
 
-Audio Devices demonstrates how to create a simple application to list and test
+Audio Devices demonstrates how to create a simple application to list and test_task
 the configuration for the various audio devices available on the target device
 or desktop PC.
 

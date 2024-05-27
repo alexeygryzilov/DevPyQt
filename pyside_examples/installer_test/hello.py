@@ -7,7 +7,7 @@ hello.py
 
 This simple script shows a label with changing "Hello World" messages.
 It can be used directly as a script, but we use it also to automatically
-test PyInstaller or Nuitka. See testing/wheel_tester.py .
+test_task PyInstaller or Nuitka. See testing/wheel_tester.py .
 
 When compiled with Nuitka or used with PyInstaller, it automatically
 stops its execution after 2 seconds.

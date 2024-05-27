@@ -561,7 +561,7 @@ class Ui_MainWindow(object):
     def check_instance(self, field, window, field_name, last_field=None) -> None or False:
         """
         Method for checking field
-        :param field: test variable
+        :param field: test_task variable
         :param window: window for response
         :param field_name: field for information output
         :param last_field:

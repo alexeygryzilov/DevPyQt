@@ -35,7 +35,7 @@ if __name__ == "__main__":
     if options.file:
         url = QUrl.fromLocalFile(options.file)
     else:
-        url = QUrl.fromLocalFile(os.fspath(dir / "resources" / "test.pdf"))
+        url = QUrl.fromLocalFile(os.fspath(dir / "resources" / "test_task.pdf"))
 
     engine = QQmlApplicationEngine()
     engine.setInitialProperties({"source": url})
