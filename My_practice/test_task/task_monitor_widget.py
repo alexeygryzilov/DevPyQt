@@ -19,7 +19,7 @@ class TaskMonitorWindow(QtWidgets.QWidget):
         self.ui.radioButton_2.clicked.connect(self.updateDelay)
         self.ui.radioButton_3.clicked.connect(self.updateDelay)
         self.ui.radioButton_4.clicked.connect(self.updateDelay)
-        #self.ui.pushButton_7.setEnabled(False)
+        # self.ui.pushButton_7.setEnabled(False)
 
     def updateDelay(self):
         if self.ui.radioButton.isChecked():
@@ -37,22 +37,50 @@ class TaskMonitorWindow(QtWidgets.QWidget):
 
     def initSignals(self):
 
-        self.ui.pushButton_7.clicked.connect(self.make_choice)
-        #self.ui.pushButton.clicked.connect(lambda: self.ui.pushButton_7.setEnabled(True))
+        self.ui.pushButton.clicked.connect(self.set_choice_1)
+        self.ui.pushButton_2.clicked.connect(self.set_choice_2)
+        self.ui.pushButton_3.clicked.connect(self.set_choice_3)
+        self.ui.pushButton_4.clicked.connect(self.set_choice_4)
+        self.ui.pushButton_5.clicked.connect(self.set_choice_5)
+        self.ui.pushButton_6.clicked.connect(self.set_choice_6)
+        self.ui.pushButton_7.clicked.connect(self.get_choice)
         self.ui.pushButton_7.clicked.connect(lambda: print("Поток запущен"))
         self.ui.pushButton_7.clicked.connect(self.mythread.start)
 
         self.mythread.systemInfoReceived.connect(self.info_updated)
         self.ui.pushButton_8.clicked.connect(lambda: print("Поток остановлен"))
 
-    def make_choice(self):
-        print('Choice')
-        if self.ui.pushButton.clicked:
-            self.choice = 1
-            self.ui.pushButton_7.setEnabled(True)
-        else:
-            QtWidgets.QMessageBox.warning(self, "Ошибка", "Выберите тип информации")
-            return self.ui.pushButton_7.setEnabled(False)
+    def set_choice_1(self):
+        self.choice = 1
+        self.ui.pushButton_7.setEnabled(True)
+
+    def set_choice_2(self):
+        self.choice = 2
+        self.ui.pushButton_7.setEnabled(True)
+
+    def set_choice_3(self):
+        self.choice = 3
+        self.ui.pushButton_7.setEnabled(True)
+
+    def set_choice_4(self):
+        self.choice = 4
+        self.ui.pushButton_7.setEnabled(True)
+
+    def set_choice_5(self):
+        self.choice = 5
+        self.ui.pushButton_7.setEnabled(True)
+
+    def set_choice_6(self):
+        self.choice = 6
+        self.ui.pushButton_7.setEnabled(True)
+
+    def get_choice(self):
+        print(f'Choice =  {self.choice}')
+
+        if not self.choice:
+            self.ui.pushButton_7.setEnabled(False)
+            QtWidgets.QMessageBox.warning(self, "Не выбран тип информации", "Выберите тип информации")
+            return
 
     def info_updated(self, data):
 
