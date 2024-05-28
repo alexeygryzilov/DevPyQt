@@ -22,7 +22,7 @@ class SystemInfo(QtCore.QThread):
             ram_total = psutil.virtual_memory().total
             ram_value = psutil.virtual_memory().percent
             disks_number = len(psutil.disk_partitions())
-            disk_partitions = psutil.disk_partitions()
+            disk_partitions = psutil.disk_partitions(all=False)
+            process = psutil.process_iter()
             self.systemInfoReceived.emit([processor, cores, cpu_value, ram_total, ram_value,
-                                          disks_number, disk_partitions])
-            time.sleep(self.delay)
+                                          disks_number, disk_partitions, process])

@@ -84,9 +84,26 @@ class TaskMonitorWindow(QtWidgets.QWidget):
 
     def info_updated(self, data):
 
-        self.ui.plainTextEdit.setPlainText(f"Процессор: {str(data[0])}\n"
-                                           f"Количество ядер: {str(data[1])}\n"
-                                           f"Текущая загрузка: {str(data[2])}")
+        if self.choice == 1:
+            self.ui.plainTextEdit.setPlainText(f"Процессор: {str(data[0])}\n"
+                                               f"Количество ядер: {str(data[1])}\n"
+                                               f"Текущая загрузка: {str(data[2])} %")
+        elif self.choice == 2:
+            self.ui.plainTextEdit.setPlainText(f"Общий объём оперативной памяти: {str(data[3] // 1024 ** 3)} ГБ\n"
+                                               f"Текущая загрузка оперативной памяти: {str(data[4])} %")
+
+        elif self.choice == 3:
+            self.ui.plainTextEdit.setPlainText(f"Количество жестких дисков: {str(data[5])}\n"
+                                               f"Информация по каждому диску: {self.print_data}")
+                                              #f"Информация по каждому диску: {str(data[6])}")
+
+        elif self.choice == 4:
+            self.ui.plainTextEdit.setPlainText(f"работающие процессы: {str(data[7])}")
+
+    def print_data(self, data):
+        for item in data[6]:
+            print(type(data[6]))
+            #print(str(item['device']))
 
 
 if __name__ == "__main__":
