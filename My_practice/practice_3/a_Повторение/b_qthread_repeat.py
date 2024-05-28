@@ -36,7 +36,7 @@ class Window(QtWidgets.QWidget):
         self.lineEditUrl.setPlaceholderText("Введите URL")
 
         self.spinBoxDelay = QtWidgets.QSpinBox()
-        self.spinBoxDelay.setMinimum(5)
+        self.spinBoxDelay.setMinimum(3)
 
         self.labelStatus = QtWidgets.QLabel()
         self.labelStatus.setText("Статус сайта")

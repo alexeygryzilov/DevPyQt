@@ -7,9 +7,10 @@ from PySide6 import QtCore
 class SystemInfo(QtCore.QThread):
     systemInfoReceived = QtCore.Signal(list)
 
-    def __init__(self, parent=None):
+    def __init__(self, delay=None, parent=None):
         super().__init__(parent)
-        self.delay = None
+
+        self.delay = delay
 
     def run(self) -> None:
         if self.delay is None:
@@ -23,6 +24,8 @@ class SystemInfo(QtCore.QThread):
             ram_value = psutil.virtual_memory().percent
             disks_number = len(psutil.disk_partitions())
             disk_partitions = psutil.disk_partitions(all=False)
-            process = psutil.process_iter()
+            processes = [p.name() for p in psutil.process_iter()]
+            services = [s.name() for s in psutil.win_service_iter()]
             self.systemInfoReceived.emit([processor, cores, cpu_value, ram_total, ram_value,
-                                          disks_number, disk_partitions, process])
+                                          disks_number, disk_partitions, processes, services])
+            self.sleep(self.delay)

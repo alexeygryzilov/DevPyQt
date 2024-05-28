@@ -16,20 +16,8 @@ class TaskMonitorWindow(QtWidgets.QWidget):
         self.initThreads()
         self.initSignals()
         self.ui.radioButton.setChecked(True)
-        self.ui.radioButton_2.clicked.connect(self.updateDelay)
-        self.ui.radioButton_3.clicked.connect(self.updateDelay)
-        self.ui.radioButton_4.clicked.connect(self.updateDelay)
-        # self.ui.pushButton_7.setEnabled(False)
 
-    def updateDelay(self):
-        if self.ui.radioButton.isChecked():
-            self.handler.setDelay(1)
-        elif self.ui.radioButton_2.isChecked():
-            self.handler.setDelay(5)
-        elif self.ui.radioButton_3.isChecked():
-            self.handler.setDelay(10)
-        elif self.ui.radioButton_4.isChecked():
-            self.handler.setDelay(30)
+        # self.ui.pushButton_7.setEnabled(False)
 
     def initThreads(self):
 
@@ -37,6 +25,10 @@ class TaskMonitorWindow(QtWidgets.QWidget):
 
     def initSignals(self):
 
+        self.ui.radioButton.clicked.connect(self.updateDelay)
+        self.ui.radioButton_2.clicked.connect(self.updateDelay)
+        self.ui.radioButton_3.clicked.connect(self.updateDelay)
+        self.ui.radioButton_4.clicked.connect(self.updateDelay)
         self.ui.pushButton.clicked.connect(self.set_choice_1)
         self.ui.pushButton_2.clicked.connect(self.set_choice_2)
         self.ui.pushButton_3.clicked.connect(self.set_choice_3)
@@ -49,6 +41,21 @@ class TaskMonitorWindow(QtWidgets.QWidget):
 
         self.mythread.systemInfoReceived.connect(self.info_updated)
         self.ui.pushButton_8.clicked.connect(lambda: print("Поток остановлен"))
+        self.ui.pushButton_8.clicked.connect(self.finishThread)
+
+    def updateDelay(self):
+        if self.ui.radioButton.isChecked():
+            self.setDelay(1)
+        elif self.ui.radioButton_2.isChecked():
+            self.setDelay(5)
+        elif self.ui.radioButton_3.isChecked():
+            self.setDelay(10)
+        elif self.ui.radioButton_4.isChecked():
+            self.setDelay(30)
+
+    def setDelay(self, value):
+        self.mythread.delay = value
+        print('Delay', value)
 
     def set_choice_1(self):
         self.choice = 1
@@ -89,21 +96,31 @@ class TaskMonitorWindow(QtWidgets.QWidget):
                                                f"Количество ядер: {str(data[1])}\n"
                                                f"Текущая загрузка: {str(data[2])} %")
         elif self.choice == 2:
-            self.ui.plainTextEdit.setPlainText(f"Общий объём оперативной памяти: {str(data[3] // 1024 ** 3)} ГБ\n"
+            self.ui.plainTextEdit.setPlainText(f"Общий объём оперативной памяти: {(data[3] / 1024 ** 3) :.2f} ГБ\n"
                                                f"Текущая загрузка оперативной памяти: {str(data[4])} %")
 
         elif self.choice == 3:
             self.ui.plainTextEdit.setPlainText(f"Количество жестких дисков: {str(data[5])}\n"
                                                f"Информация по каждому диску: {self.print_data}")
-                                              #f"Информация по каждому диску: {str(data[6])}")
+            # f"Информация по каждому диску: {str(data[6])}")
 
         elif self.choice == 4:
-            self.ui.plainTextEdit.setPlainText(f"работающие процессы: {str(data[7])}")
+            self.ui.plainTextEdit.setPlainText(f"Работающие процессы: {len(data[7])}\n\n"
+                                               f"Процессы: {str(data[7])}")
+
+        elif self.choice == 5:
+            self.ui.plainTextEdit.setPlainText(f"Службы: {len(data[8])}\n\n"
+                                               f"Службы: {str(data[7])}")
+
+        elif self.choice == 6:
+            self.ui.plainTextEdit.setPlainText("Задачи:")
 
     def print_data(self, data):
         for item in data[6]:
-            print(type(data[6]))
-            #print(str(item['device']))
+            return str(item)
+
+    def finishThread(self):
+        pass
 
 
 if __name__ == "__main__":
