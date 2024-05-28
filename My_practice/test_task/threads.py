@@ -11,12 +11,13 @@ class SystemInfo(QtCore.QThread):
         super().__init__(parent)
 
         self.delay = delay
+        self.status = True
 
     def run(self) -> None:
         if self.delay is None:
             self.delay = 1
 
-        while True:
+        while self.status:
             processor = uname().processor
             cores = psutil.cpu_count(logical=False)
             cpu_value = psutil.cpu_percent()

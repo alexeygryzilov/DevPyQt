@@ -10,14 +10,14 @@ class TaskMonitorWindow(QtWidgets.QWidget):
     def __init__(self, choice=None, parent=None):
         super().__init__(parent)
 
-        self.choice = choice
+        self.choice = None
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.initThreads()
         self.initSignals()
         self.ui.radioButton.setChecked(True)
 
-        # self.ui.pushButton_7.setEnabled(False)
+        self.ui.pushButton_8.setEnabled(False)
 
     def initThreads(self):
 
@@ -36,11 +36,10 @@ class TaskMonitorWindow(QtWidgets.QWidget):
         self.ui.pushButton_5.clicked.connect(self.set_choice_5)
         self.ui.pushButton_6.clicked.connect(self.set_choice_6)
         self.ui.pushButton_7.clicked.connect(self.get_choice)
-        self.ui.pushButton_7.clicked.connect(lambda: print("Поток запущен"))
-        self.ui.pushButton_7.clicked.connect(self.mythread.start)
+        # self.ui.pushButton_7.clicked.connect(lambda: print("Поток запущен"))
 
-        self.mythread.systemInfoReceived.connect(self.info_updated)
-        self.ui.pushButton_8.clicked.connect(lambda: print("Поток остановлен"))
+        # self.mythread.systemInfoReceived.connect(self.info_updated)
+        # self.ui.pushButton_8.clicked.connect(lambda: print("Поток остановлен"))
         self.ui.pushButton_8.clicked.connect(self.finishThread)
 
     def updateDelay(self):
@@ -81,6 +80,15 @@ class TaskMonitorWindow(QtWidgets.QWidget):
         self.choice = 6
         self.ui.pushButton_7.setEnabled(True)
 
+    def startThread(self):
+        self.mythread.status = True
+        self.ui.pushButton_7.clicked.connect(self.mythread.start)
+        self.mythread.start()
+        self.mythread.systemInfoReceived.connect(self.info_updated)
+        self.ui.pushButton_8.setEnabled(True)
+        print("Поток запущен")
+        self.ui.pushButton_7.setEnabled(False)
+
     def get_choice(self):
         print(f'Choice =  {self.choice}')
 
@@ -88,6 +96,9 @@ class TaskMonitorWindow(QtWidgets.QWidget):
             self.ui.pushButton_7.setEnabled(False)
             QtWidgets.QMessageBox.warning(self, "Не выбран тип информации", "Выберите тип информации")
             return
+        else:
+            self.startThread()
+
 
     def info_updated(self, data):
 
@@ -120,7 +131,11 @@ class TaskMonitorWindow(QtWidgets.QWidget):
             return str(item)
 
     def finishThread(self):
-        pass
+        self.ui.plainTextEdit.clear()
+        self.mythread.status = False
+        print("Поток остановлен")
+        self.ui.pushButton_7.setEnabled(True)
+        self.ui.pushButton_8.setEnabled(False)
 
 
 if __name__ == "__main__":
