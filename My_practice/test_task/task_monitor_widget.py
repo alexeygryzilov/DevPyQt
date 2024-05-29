@@ -4,6 +4,8 @@ from PySide6 import QtWidgets, QtGui, QtCore
 
 from threads import SystemInfo
 
+import psutil
+
 
 class TaskMonitorWindow(QtWidgets.QWidget):
 
@@ -99,7 +101,6 @@ class TaskMonitorWindow(QtWidgets.QWidget):
         else:
             self.startThread()
 
-
     def info_updated(self, data):
 
         if self.choice == 1:
@@ -112,8 +113,9 @@ class TaskMonitorWindow(QtWidgets.QWidget):
 
         elif self.choice == 3:
             self.ui.plainTextEdit.setPlainText(f"Количество жестких дисков: {str(data[5])}\n"
-                                               f"Информация по каждому диску: {self.print_data}")
-            # f"Информация по каждому диску: {str(data[6])}")
+                                               f"Информация по каждому диску:\n"
+                                               f"{self.print_data(data)[0]}\n"
+                                               f"{self.print_data(data)[1]}")
 
         elif self.choice == 4:
             self.ui.plainTextEdit.setPlainText(f"Работающие процессы: {len(data[7])}\n\n"
@@ -127,8 +129,13 @@ class TaskMonitorWindow(QtWidgets.QWidget):
             self.ui.plainTextEdit.setPlainText("Задачи:")
 
     def print_data(self, data):
-        for item in data[6]:
-            return str(item)
+        list_ = []
+        for disk in data[9]:
+            disk_ = psutil.disk_usage(disk)
+            info = f'{disk}  total= {(disk_[0] / 1024 ** 3) : .2f} ГБ  used= {(disk_[1] / 1024 ** 3) : .2f} ГБ  free= {(disk_[2] / 1024 ** 3) : .2f} ГБ  percent= {disk_[3]}'
+            list_.append(info)
+        return list_
+
 
     def finishThread(self):
         self.ui.plainTextEdit.clear()
@@ -145,3 +152,4 @@ if __name__ == "__main__":
     window.show()
 
     app.exec()
+

@@ -1,9 +1,10 @@
 import psutil
 
-import schedule
+data = psutil.disk_partitions()
 
-import pywin32_system32
+disks = [data[idx][0] for idx in range(len(data))]
+print(disks)
 
-print([p.name() for p in psutil.process_iter()])
-
-print(pywin.)
+for disk in disks:
+    disk_ = psutil.disk_usage(disk)
+    print(f'{disk} total= {disk_[0]} used= {disk_[1]} free= {disk_[2]} percent= {disk_[3]}')
