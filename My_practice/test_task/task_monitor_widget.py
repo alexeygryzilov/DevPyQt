@@ -6,6 +6,35 @@ from threads import SystemInfo
 
 import psutil
 
+import win32com.client
+
+class taskSchedulerManager:
+    def __init__(self):
+        self.sheduler = win32com.client.Dispatch('Schedule.Service')
+        self.sheduler.Connect()
+
+    def get_tasks(self):
+        tasks = []
+        folders = [self.sheduler.GetFolder('\\')]
+        while folders:
+            folder = folders.pop(0)
+            for task in folder.GetTasks(0):
+                task_info = {"name": task.Name,
+                             "path": task.Path,
+                             "state": self.get_task_state(task.State)}
+                tasks.append(task_info)
+            folders.extend(folder.GetFolders(0))
+        return tasks
+
+    @staticmethod
+    def get_task_state(state):
+        states = {0: "Unknown",
+                  1: "Disabled",
+                  2: "Queued",
+                  3: "Ready",
+                  4: "Running"}
+        return states.get(state, "Unknown")
+
 
 class TaskMonitorWindow(QtWidgets.QWidget):
 
@@ -129,7 +158,12 @@ class TaskMonitorWindow(QtWidgets.QWidget):
                                                f"Службы: {str(data[7])}")
 
         elif self.choice == 6:
-            self.ui.plainTextEdit.setPlainText("Задачи:")
+            manager = taskSchedulerManager()
+            data = manager.get_tasks()
+            self.ui.plainTextEdit.appendPlainText(f"Total tasks: {len(data)}\n")
+            for item in range(len(data)):
+                if data[item]['state'] == "Ready":
+                    self.ui.plainTextEdit.appendPlainText(f"name = {data[item]['name']} state = {data[item]['state']}")
 
     def get_data(self, data):
 
