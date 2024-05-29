@@ -114,10 +114,11 @@ class TaskMonitorWindow(QtWidgets.QWidget):
                                                f"Текущая загрузка оперативной памяти: {str(data[4])} %")
 
         elif self.choice == 3:
-            self.ui.plainTextEdit.setPlainText(f"Количество жестких дисков: {str(data[5])}\n"
-                                               f"Информация по каждому диску:\n"
-                                               f"{self.get_data(data)[0]}\n"
-                                               f"{self.get_data(data)[1]}")
+            self.ui.plainTextEdit.appendPlainText(f"Количество жестких дисков: {str(data[5])}\n"
+                                               f"Информация по каждому диску:")
+            self.get_data(data)
+
+
 
         elif self.choice == 4:
             self.ui.plainTextEdit.setPlainText(f"Работающие процессы: {len(data[7])}\n\n"
@@ -131,12 +132,13 @@ class TaskMonitorWindow(QtWidgets.QWidget):
             self.ui.plainTextEdit.setPlainText("Задачи:")
 
     def get_data(self, data):
-        list_ = []
+
         for disk in data[9]:
             disk_ = psutil.disk_usage(disk)
             info = f'{disk}  total= {(disk_[0] / 1024 ** 3) : .2f} ГБ  used= {(disk_[1] / 1024 ** 3) : .2f} ГБ  free= {(disk_[2] / 1024 ** 3) : .2f} ГБ  percent= {disk_[3]}'
-            list_.append(info)
-        return list_
+            self.ui.plainTextEdit.appendPlainText(info)
+        self.ui.plainTextEdit.appendPlainText('')
+
 
 
     def finishThread(self):
