@@ -15,7 +15,7 @@ class SystemInfo(QtCore.QThread):
 
     def run(self) -> None:
         if self.delay is None:
-            self.delay = 1
+            self.delay = 5
 
         while self.status:
             processor = uname().processor

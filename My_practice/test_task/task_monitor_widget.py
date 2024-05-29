@@ -17,7 +17,7 @@ class TaskMonitorWindow(QtWidgets.QWidget):
         self.ui.setupUi(self)
         self.initThreads()
         self.initSignals()
-        self.ui.radioButton.setChecked(True)
+        self.ui.radioButton_2.setChecked(True)
 
         self.ui.pushButton_8.setEnabled(False)
 
@@ -140,9 +140,10 @@ class TaskMonitorWindow(QtWidgets.QWidget):
 
 
     def finishThread(self):
-        self.ui.plainTextEdit.clear()
+
         self.mythread.status = False
         print("Поток остановлен")
+        self.ui.plainTextEdit.clear()
         self.ui.pushButton_7.setEnabled(True)
         self.ui.pushButton_8.setEnabled(False)
 
