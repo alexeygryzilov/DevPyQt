@@ -83,6 +83,8 @@ class TaskMonitorWindow(QtWidgets.QWidget):
         self.ui.pushButton_7.setEnabled(True)
 
     def startThread(self):
+
+        self.ui.plainTextEdit.clear()
         self.mythread.status = True
         self.ui.pushButton_7.clicked.connect(self.mythread.start)
         self.mythread.start()
@@ -114,8 +116,8 @@ class TaskMonitorWindow(QtWidgets.QWidget):
         elif self.choice == 3:
             self.ui.plainTextEdit.setPlainText(f"Количество жестких дисков: {str(data[5])}\n"
                                                f"Информация по каждому диску:\n"
-                                               f"{self.print_data(data)[0]}\n"
-                                               f"{self.print_data(data)[1]}")
+                                               f"{self.get_data(data)[0]}\n"
+                                               f"{self.get_data(data)[1]}")
 
         elif self.choice == 4:
             self.ui.plainTextEdit.setPlainText(f"Работающие процессы: {len(data[7])}\n\n"
@@ -128,7 +130,7 @@ class TaskMonitorWindow(QtWidgets.QWidget):
         elif self.choice == 6:
             self.ui.plainTextEdit.setPlainText("Задачи:")
 
-    def print_data(self, data):
+    def get_data(self, data):
         list_ = []
         for disk in data[9]:
             disk_ = psutil.disk_usage(disk)
